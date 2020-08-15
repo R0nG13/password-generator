@@ -1,12 +1,16 @@
 // Assignment code here
 
 function generatePassword() {
-  var chars = {
+  var charTypes = {
     lowercase: "abcdefghijklmnopqrstuvwxyz",
     uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     numeric: "0123456789",
     special: "!@#$%&*()-_.?+="
   };
+
+  var chars = "";
+
+  var validTypes = Object.keys(charTypes);
 
   // prompt for password length between 8-128 characters
   var passwordLength;
@@ -20,29 +24,30 @@ function generatePassword() {
   // validate input and at least one character type should be selected
   // make array to store selected char types, create while loop and while that array is empty keep asking for char types
   // probably once a user has selected a char type an empty value should terminate the loop
-  var charTypes = [];
+  var selectedTypes = [];
   var charType;
 
-  while (charTypes.length === 0 || charType) {
-    charType = window.prompt("Please choose a character type. Select cancel when done. Valid types: " + Object.keys(chars).join(', '));
+  while (selectedTypes.length === 0 || charType) {
+    charType = window.prompt("Please choose a character type. Select cancel when done. Valid types: " + validTypes.join(', '));
 
     if (charType === null) {
       continue;
     }
 
     charType = charType.toLowerCase();
-
-    if (charType in chars) {
-    // if (charType === "lowercase" || charType === "uppercase" || charType === "numeric" || charType === "special") {
-      if (charTypes.indexOf(charType) === -1) {
-        charTypes.push(charType);
+    // verify that charType is valid
+    if (charType in charTypes) {
+      // if a new charType is entered include those characters
+      if (selectedTypes.indexOf(charType) === -1) {
+        selectedTypes.push(charType);
+        chars += charTypes[charType];
       } else {
         window.alert("You've already selected " + charType + ".");
       }
     }
   }
 
-  console.log(charTypes);
+  return chars;
 }
 
 
