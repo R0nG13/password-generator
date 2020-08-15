@@ -47,7 +47,19 @@ function generatePassword() {
     }
   }
 
-  return chars;
+  // create variable to hold generated password
+  var genPassword = "";
+
+  // create a for loop which runs "passwordLength"
+  for (var i = 0; i < passwordLength; i++) {
+    // each iteration, select a random character from "chars"
+    var index = Math.floor(Math.random() * (chars.length - 1));
+    // add selected character onto password variable
+    genPassword += chars[index];
+  }
+
+  // return password variable
+  return genPassword;
 }
 
 
