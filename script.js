@@ -23,7 +23,7 @@ function generatePassword() {
   // prompt for character types including lowercase, uppercase, numeric, and/or special characters
   // validate input and at least one character type should be selected
   // make array to store selected char types, create while loop and while that array is empty keep asking for char types
-  // probably once a user has selected a char type an empty value should terminate the loop
+  // once a user has selected a char type an empty value should terminate the loop
   var selectedTypes = [];
   var charType;
 
@@ -36,7 +36,7 @@ function generatePassword() {
 
     charType = charType.toLowerCase();
     // verify that charType is valid
-    if (charType in charTypes) {
+    if (charTypes.hasOwnProperty(charType)) {
       // if a new charType is entered include those characters
       if (selectedTypes.indexOf(charType) === -1) {
         selectedTypes.push(charType);
@@ -47,14 +47,12 @@ function generatePassword() {
     }
   }
 
-  var genPassword;
-  var validPassword = false;
-
-  while (!validPassword) {
-    // create variable called "typesUsed" to store charTypes used (array)
+  while (true) {
+    // create variable to store charTypes used
+    var typesUsed = [];
 
     // create variable to hold generated password
-    genPassword = "";
+    var genPassword = "";
 
     // create a for loop which runs "passwordLength"
     for (var i = 0; i < passwordLength; i++) {
@@ -62,24 +60,40 @@ function generatePassword() {
       var index = Math.floor(Math.random() * (chars.length - 1));
 
       // create variable for store selected char (refactor "genPassword += ..." to use this variable)
-        var storeSelectedChar;
-        genPassword += storeSelectedChar[index];
-      // create a for loop to loop through selectedTypes
-      for (var i = 0; )
-       // for each time through the loop, check to see if the selected character is in that specific type's "charTypes" value (hint: charTypes[selectedType].indexOf(char) >= 0)
-      // if it IS, push the charType key into the array you created at the top of this main while loop
+      var char = chars[index];
 
       // add selected character onto password variable
-      genPassword += chars[index];
+      genPassword += char;
+
+      // loop through selectedTypes for validation
+      for (var k = 0; k < selectedTypes.length; k++) {
+        var type = selectedTypes[k];
+        var typeChars = charTypes[type];
+        
+        // determine character type of selected character
+        if (typeChars.indexOf(char) >= 0) {
+          typesUsed.push(type);
+          break;
+        }
+      }
     }
 
-    // once password is done being gnerated, set "validPassword" to true
-    // create ONE MORE for loop to go through "selectedTypes", make sure they each of them is in "typesUsed" at least once
-    // for each time through this loop, if a selected type is NOT found in "typesUsed", set "validPassword" to false and break out of this for loop immediately
-  }
+    var isValid = true;
 
-  // return password variable
-  return genPassword;
+    // verify each selected type is used once
+    for (var l = 0; l < selectedTypes.length; l++) {
+      // if type is not found in typesUsed generate new password
+      if (typesUsed.indexOf(selectedTypes[l]) === -1) {
+        isValid = false;
+        break;
+      }
+    }
+    
+    // if password passes validation return password
+    if (isValid) {
+      return genPassword;
+    }
+  }
 }
 
 
