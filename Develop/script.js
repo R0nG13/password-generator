@@ -65,6 +65,7 @@ function generatePassword() {
         var storeSelectedChar;
         genPassword += storeSelectedChar[index];
       // create a for loop to loop through selectedTypes
+      for (var i = 0; )
        // for each time through the loop, check to see if the selected character is in that specific type's "charTypes" value (hint: charTypes[selectedType].indexOf(char) >= 0)
       // if it IS, push the charType key into the array you created at the top of this main while loop
 
